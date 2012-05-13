@@ -14,6 +14,7 @@ void init(void) {
 int main(void) {
     init();
 
+#if 0
     SET_BIT(DDRB, DDB0);
     CLR_BIT(DDRB, DDB1);
 
@@ -25,11 +26,17 @@ int main(void) {
     DEBUG("AFTER:");
     DUMPBYTE(DDRD);
     DUMPBYTE(PORTD);
+#endif
+    DDRD &= ~(1<<DDD6)|(1<<DDD7);
+    PORTD &= ~((1<<PD6)|(1<<PD7));
 
-#define bitchar(x, y) (GET_BIT(x, y) ? '1' : '0')
+//#define bitchar(x, y) (GET_BIT(x, y) ? '1' : '0')
+#define bitchar(x, y) (((x) & (1<<(y))) ? '1' : '0')
+
     uint8_t old = 0;
     while (1) {
-        uint8_t new = GET_BITS(PIND, PIND6, PIND7);
+        uint8_t new = PIND & ((1<<DDD6)|(1<<DDD7));
+//        uint8_t new = GET_BITS(PIND, PIND6, PIND7);
         if (old != new) {
             DUMPBYTE(PIND);
             DEBUG("changed: %c%c -> %c%c",
