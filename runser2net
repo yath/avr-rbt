@@ -1,0 +1,2 @@
+#!/bin/sh
+ssh root@192.168.12.128 'killall -9 ser2net; ./ser2net -c /dev/null -C "2001:raw:600:/dev/tts/0:9600 NONE 1STOPBIT 8DATABITS -XONXOFF -RTSCTS -LOCAL"'
